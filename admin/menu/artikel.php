@@ -204,10 +204,13 @@ if(_adminMenu != 'true') exit;
 
 		  if(empty($get['datum'])) $datum = _no_public;
 	      else $datum = date("d.m.y H:i", $get['datum'])._uhr;
-		  
+		  		$qryk = db("SELECT kategorie FROM ".$db['newskat']."
+                WHERE id = '".$get['kat']."'");
+        $getk = _fetch($qryk);
           $show_ .= show($dir."/admin_show", array("date" => $datum,
                                                    "titel" => $titel,
                                                    "class" => $class,
+												   "kat" => re($getk['kategorie']),
                                                    "autor" => autor($get['autor']),
   							  				       "intnews" => "",
                                                    "sticky" => "",
@@ -218,6 +221,7 @@ if(_adminMenu != 'true') exit;
         $nav = nav($entrys,$maxadminnews,"?admin=artikel");
         $show = show($dir."/admin_news", array("head" => _artikel,
                                                "nav" => $nav,
+											   "kat" => _news_admin_kat,
                                                "autor" => _autor,
                                                "titel" => _titel,
                                                "date" => _datum,

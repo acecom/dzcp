@@ -137,8 +137,12 @@ if(_adminMenu != 'true') exit;
                                                             "del" => convSpace(_confirm_del_dl)));
 
           $class = ($color % 2) ? "contentMainSecond" : "contentMainFirst"; $color++;
+		  		  		$qryk = db("SELECT name FROM ".$db['dl_kat']."
+                WHERE id = '".$get['kat']."'");
+        $getk = _fetch($qryk);
           $show_ .= show($dir."/downloads_show", array("id" => $get['id'],
                                                        "dl" => re($get['download']),
+													   "kat" => re($getk['name']),
                                                        "class" => $class,
                                                        "edit" => $edit,
                                                        "delete" => $delete
@@ -146,6 +150,7 @@ if(_adminMenu != 'true') exit;
         }
 
         $show = show($dir."/downloads", array("head" => _dl,
+											  "kat" =>_downloads_kat,
                                               "date" => _datum,
                                               "titel" => _dl_file,
                                               "add" => _downloads_admin_head,

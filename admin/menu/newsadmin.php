@@ -371,7 +371,7 @@ if(_adminMenu != 'true') exit;
                                                             "del" => convSpace(_confirm_del_news)));
           $titel = show(_news_show_link, array("titel" => re(cut($get['titel'],$lnewsadmin)),
                                                "id" => $get['id']));
-  
+         
           $class = ($color % 2) ? "contentMainSecond" : "contentMainFirst"; $color++;
   
           if($get['intern'] == "1") $intern = _votes_intern;
@@ -384,10 +384,13 @@ if(_adminMenu != 'true') exit;
                : '<a href="?admin=newsadmin&amp;do=public&amp;id='.$get['id'].'&amp;what=set"><img src="../inc/images/nonpublic.gif" alt="" title="'._public.'" /></a>';
           if(empty($get['datum'])) $datum = _no_public;
 	      else $datum = date("d.m.y H:i", $get['datum'])._uhr;
-		  
+		  		$qryk = db("SELECT kategorie FROM ".$db['newskat']."
+                WHERE id = '".$get['kat']."'");
+        $getk = _fetch($qryk);
 		  $show_ .= show($dir."/admin_show", array("date" => $datum,
                                                    "titel" => $titel,
                                                    "class" => $class,
+												   "kat" => re($getk['kategorie']),
                                                    "autor" => autor($get['autor']),
   				  							       "intnews" => $intern,
                                                    "sticky" => $sticky,
@@ -395,9 +398,11 @@ if(_adminMenu != 'true') exit;
 												   "edit" => $edit,
                                                    "delete" => $delete));
         }
+
         $nav = nav($entrys,$maxadminnews,"?admin=newsadmin");
         $show = show($dir."/admin_news", array("head" => _news_admin_head,
                                                "nav" => $nav,
+											   "kat" => _news_admin_kat,
                                                "autor" => _autor,
                                                "titel" => _titel,
                                                "val" => "newsadmin",
